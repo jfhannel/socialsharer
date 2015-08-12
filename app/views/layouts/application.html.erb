@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SocialSharer</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Social Sharer</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+            <%= render 'devise/menu/registration_items' %>
+        </ul>
+        <% if user_signed_in? %>
+        <% if current_user[:is_master_user] %>
+          <ul class="nav navbar-nav">
+            <li><%= link_to('Tweets', '/share/tweets') %></li>
+          </ul>
+          <% if false %>
+          <ul class="nav navbar-nav">
+            <li><%= link_to('Linkedin Posts', '/share/linkedin_posts') %></li>
+          </ul>
+          <% end %>
+        <% else %>
+          <ul class="nav navbar-nav">
+            <li><%= link_to('My Shared Tweets', '/share/user_tweets') %></li>
+          </ul>
+          <% if false %>
+          <ul class="nav navbar-nav">
+            <li><%= link_to('My Shared Linkedin Posts', '/share/user_linkedin_posts') %></li>
+          </ul>
+          <% end %>
+        <% end %>
+        <% end %>
+        <ul class="nav navbar-nav">
+            <%= render 'devise/menu/login_items' %>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            <li><a class='btn disabled'>Welcome, <%= current_user[:email] %></a></li>
+          <% end %>
+        </ul>
+    </div>
+  </div>
+</nav>
+
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
+<%= yield %>
+
+</body>
+</html>

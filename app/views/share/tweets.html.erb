@@ -1,0 +1,49 @@
+<% if user_signed_in? %>
+<% if current_user[:is_master_user] %>
+
+<div class="container">
+  <h2>Your Tweets</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>
+        </td>
+        <td>
+          Publish Time
+        </td>
+        <td>
+          Tweet
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <% current_user.account.twitter_posts.each do |t| %>
+      <tr>
+        <td>
+          <% if not t[:shares_created] %>
+        <%= form_for :retweet, url: '/share/retweet' do |f| %>
+          Retweet to: <%= f.number_field :num_rts, :width => "10px" %>/<%= @total_twitter_users %> accounts<br />
+          <%= f.hidden_field :twitter_post_id, :value => t[:id] %>
+          <%= f.submit 'Retweet' %>
+        <% end %>
+        <% else %>
+        <%= @completed_shares[t[:id]] %>/<%= @total_shares[t[:id]] %> retweeted
+        <% end %>
+        </td>
+        <td>
+          <%= t[:publish_time].in_time_zone.strftime("%m/%d/%Y at %I:%M%p ") + Time.zone.to_s %>
+        </td>
+        <td>
+          <%= t[:text] %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<% else %>
+<h2>Your account does not have admin privileges!</h2>
+<% end %>
+<% end %>

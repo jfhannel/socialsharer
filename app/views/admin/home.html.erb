@@ -1,0 +1,62 @@
+<% if user_signed_in? %>
+<% if current_user[:is_master_user] %>
+<div class="container">
+  <h2>Your Accounts</h2>
+  <table class="table">
+    <tbody>
+      
+      <tr>
+        <td>Twitter</td>
+        <td>
+          <% if current_user.twitter_account.nil? %>
+            No account authorized
+          <% else %>
+            Twitter account: <%= current_user.twitter_account[:screen_name] %>
+            <% end %>
+        </td>
+        <td><%= link_to "Authorize", "/authorize/twitter" %></td>
+      </tr>
+      <% if false %>
+      <tr>
+        <td>Linkedin</td>
+        <td>
+          <% if current_user.linkedin_account.nil? %>
+            No account authorized
+          <% else %>
+            Linkedin account: <%= current_user.linkedin_account[:first_name]+' '+current_user.linkedin_account[:last_name] %>
+            <% end %>
+        </td>
+        <td><%= link_to "Authorize", "/authorize/linkedin" %></td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="container">
+  <h2>Available Twitter Accounts</h2>
+  <table class="table">
+    <thead>
+      <tr>
+      <td>Email</td>
+      <td>Twitter Handle</td>
+    </tr>
+    </thead
+    <tbody>
+      <% @twitter_users.each do |u| %>
+        <tr>
+          <td>
+            <%= u[:email] %>
+          </td>
+          <td><%= u.twitter_account[:screen_name] %></td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% else %>
+<h2>Your account does not have admin privileges!</h2>
+<% end %>
+<% end %>

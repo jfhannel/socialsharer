@@ -1,0 +1,45 @@
+<% if user_signed_in? %>
+<% if current_user[:is_master_user] %>
+
+<div class="container">
+  <h2>Your Linkedin Posts</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>
+        </td>
+        <td>
+          Publish Time
+        </td>
+        <td>
+          Post Text
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <% current_user.account.linkedin_posts.each do |p| %>
+      <tr>
+        <td>
+          <% if not p[:shares_created] %>
+        <%= link_to "Share", "/share/share_linkedin?linkedin_post_id="+p[:id].to_s %>
+        <% else %>
+        Shared
+        <% end %>
+        </td>
+        <td>
+          <%= p[:publish_time].in_time_zone.strftime("%m/%d/%Y at %I:%M%p (<%= Time.zone.to_s %>)") %>
+        </td>
+        <td>
+          <%= p[:text] %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<% else %>
+<h2>Your account does not have admin privileges!</h2>
+<% end %>
+<% end %>

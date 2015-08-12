@@ -1,0 +1,18 @@
+<div class="container">
+  <h2>Your Accounts</h2>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>Twitter</td>
+        <td>
+          <% if current_user.twitter_account.nil? %>
+            No account authorized
+          <% else %>
+            Twitter account: <%= current_user.twitter_account[:screen_name] %>
+            <% end %>
+        </td>
+        <td><%= link_to "Authorize", "/authorize/twitter" %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
